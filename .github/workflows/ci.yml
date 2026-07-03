@@ -35,9 +35,9 @@ jobs:
       - name: Publish application
         uses: actions/upload-artifact@v4
         with:
-          name: qFlipper-x86_64.AppImage
+          name: QPuter-x86_64.AppImage
           path: |
-                ./build/qFlipper-x86_64.AppImage
+                ./build/QPuter-x86_64.AppImage
           if-no-files-found: error
           retention-days: 1
 
@@ -63,14 +63,14 @@ jobs:
       - name: Publish application
         uses: actions/upload-artifact@v4
         with:
-          name: qflipper.dmg
+          name: QPuter.dmg
           path: |
-            ./build_mac/qflipper.dmg
+            ./build_mac/QPuter.dmg
           if-no-files-found: error
           retention-days: 1
 
   build_windows:
-    runs-on: [self-hosted, X64, Windows]
+    runs-on: windows-latest
     env:
         SIGNING_TOOL: ${{ secrets.WIN_SIGNING_TOOL }}
     steps:
@@ -80,16 +80,37 @@ jobs:
           submodules: true
           fetch-depth: 0  # must to be there, see installer_windows.nsi file for details
 
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.4.2'
+          arch: 'win64_msvc2019_64'
+          cache: true
+
+      - name: Install NSIS
+        run: choco install nsis -y
+
+      - name: Download STM32 DFU driver
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://cdn.flipperzero.one/STM32_DFU_USB_Driver.zip" -OutFile "$env:RUNNER_TEMP\stm32_driver.zip"
+          Expand-Archive -Force -Path "$env:RUNNER_TEMP\stm32_driver.zip" -DestinationPath "C:\STM32 Driver"
+
       - name: Build application
         run: .\build_windows.bat
 
       - name: Publish application
         uses: actions/upload-artifact@v4
         with:
-          name: qFlipperSetup-64bit.exe
+          name: QPuterSetup-64bit.exe
           path: |
-            .\build\qFlipperSetup-64bit.exe
-            .\build\qFlipper-64bit.zip
+            .\build\QPuterSetup-64bit.exe
+            .\build\QPuter-64bit.zip
           if-no-files-found: error
           retention-days: 1
 
@@ -123,20 +144,20 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: qFlipper-x86_64.AppImage
+          name: QPuter-x86_64.AppImage
       - uses: actions/download-artifact@v4
         with:
-          name: qFlipperSetup-64bit.exe
+          name: QPuterSetup-64bit.exe
       - uses: actions/download-artifact@v4
         with:
-          name: qflipper.dmg
+          name: QPuter.dmg
 
       - name: Rename app
         run: |
-            mv qFlipper-x86_64.AppImage ./artifacts/qFlipper-x86_64-${SUFFIX}.AppImage
-            mv qFlipperSetup-64bit.exe ./artifacts/qFlipperSetup-64bit-${SUFFIX}.exe
-            mv qFlipper-64bit.zip ./artifacts/qFlipper-64bit-${SUFFIX}.zip
-            mv qflipper.dmg ./artifacts/qFlipper-${SUFFIX}.dmg
+            mv QPuter-x86_64.AppImage ./artifacts/QPuter-x86_64-${SUFFIX}.AppImage
+            mv QPuterSetup-64bit.exe ./artifacts/QPuterSetup-64bit-${SUFFIX}.exe
+            mv QPuter-64bit.zip ./artifacts/QPuter-64bit-${SUFFIX}.zip
+            mv QPuter.dmg ./artifacts/QPuter-${SUFFIX}.dmg
 
       - name: Upload artifacts to update server
         if: ${{ !github.event.pull_request.head.repo.fork }}

@@ -2,7 +2,7 @@
 
 set -euxo pipefail;
 
-TARGET="qFlipper"
+TARGET="QPuter"
 BUILDDIR="build"
 APPDIR_PREFIX="$PWD/$BUILDDIR/AppDir/usr"
 

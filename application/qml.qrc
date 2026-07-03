@@ -91,9 +91,9 @@
         <file>components/TextBox.qml</file>
         <file>assets/gfx/images/spinner.svg</file>
         <file>assets/gfx/symbolic/developer-mode.svg</file>
-        <file>assets/icons/qFlipper.icns</file>
-        <file>assets/icons/qFlipper.ico</file>
-        <file>assets/icons/qFlipper.png</file>
+        <file>assets/icons/QPuter.icns</file>
+        <file>assets/icons/QPuter.ico</file>
+        <file>assets/icons/QPuter.png</file>
         <file>assets/gfx/symbolic/file-symbolic.svg</file>
         <file>components/FileManager.qml</file>
         <file>components/FileManagerDelegate.qml</file>

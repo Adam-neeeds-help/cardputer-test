@@ -1,4 +1,4 @@
-; qFlipper Windows Installer Build Script 
+; QPuter Windows Installer Build Script
 ; requires NullSoft Installer 3.08 or later
 ; Reference http://kkmalar.org/WebApplication/qz-print-2.0.0-RC1/ant/windows/windows-packager.nsi.in
 
@@ -16,7 +16,7 @@
   ;Compression algorithm used to compress files/data in the installer
   SetCompressor /solid /final lzma
 
-  !define /ifndef NAME "qFlipper"
+  !define /ifndef NAME "QPuter"
   !define /ifndef COMPANY "Flipper Devices Inc."
   !define /ifndef ARCH_BITS 64
   !define UNINSTALL_EXE "$INSTDIR\uninstall.exe"
@@ -40,15 +40,16 @@
   Name ${NAME}
   OutFile "build\${NAME}Setup-${ARCH_BITS}bit.exe"
 
-  ; Get version tag from git. Will be used in titles
+  ; Get version tag from git. Will be used in titles. Falls back to 0.0.0
+  ; when the checkout has no tags reachable from HEAD.
   !tempfile StdOut
   !echo "${StdOut}"
-  !system '"git" describe --tags --abbrev=0 --exclude "*-rc*" > "${StdOut}"'
+  !system 'cmd /c git describe --tags --abbrev=0 --exclude "*-rc*" > "${StdOut}" 2>nul || echo 0.0.0> "${StdOut}"'
   !define /file VERSION "${StdOut}"
   !delfile "${StdOut}"
   !undef StdOut
 
-  ; Default installation Dir. On Windows it will be C:\Program Files\qFlipper
+  ; Default installation Dir. On Windows it will be C:\Program Files\QPuter
   InstallDir "$PROGRAMFILES64\${NAME}"
 
   ; Installer/Uninstaller Icon
@@ -58,15 +59,12 @@
   ; Enable scaling for high DPI screen
   ManifestDPIAware true
 
-  ; Sign the Uninstaller.exe file
-  !uninstfinalize 'flipper_code_sign.bat "%1" wow64shit'
-
   ; Version Information displayer in Properties -> Details tab
   ; Required for antivirus databases
   VIProductVersion "${VERSION}.0" ; Only exact 4 numbers allowed x.x.x.x
-  VIAddVersionKey "FileDescription" "qFlipper Windows Installer"
+  VIAddVersionKey "FileDescription" "QPuter Windows Installer"
   VIAddVersionKey "FileVersion" "${VERSION}.0"
-  VIAddVersionKey "ProductName" "qFlipper"  
+  VIAddVersionKey "ProductName" "QPuter"
   VIAddVersionKey "ProductVersion" "${VERSION}.0"
   VIAddVersionKey "CompanyName" "Flipper Devices Inc."
   VIAddVersionKey "LegalCopyright" "(C) Flipper Devices Inc."
@@ -75,15 +73,15 @@
 ;Installer wizard pages
 
   ; Global window title 
-  Caption "qFlipper ${VERSION} Setup"
+  Caption "QPuter ${VERSION} Setup"
 
   !define MUI_HEADERIMAGE
   !define MUI_HEADERIMAGE_BITMAP "installer-assets\backgrounds\windows_installer\windows_installer_header216.bmp"
   !define MUI_HEADERIMAGE_UNBITMAP "installer-assets\backgrounds\windows_installer\windows_installer_header216.bmp"
 
   ; Welcome and Finish page settings
-  !define MUI_WELCOMEPAGE_TITLE  "Welcome to qFlipper ${VERSION} Setup"
-  !define MUI_WELCOMEPAGE_TEXT "qFlipper is a desktop application for updating Flipper Zero firmware and databases, manage files on SD card, and repair corrupted device.$\r$\n$\r$\n$\r$\n$\r$\n$\r$\n$\r$\n$\r$\n$\r$\nCredits$\r$\nCode:   Georgii Surkov$\r$\nDesign: Valerie Aquamine, Dmitry Pavlov$\n$\r$\nOpen Source and Distributed under GPL v3 License$\r$\nCopyright (C) 2022 Flipper Devices Inc."
+  !define MUI_WELCOMEPAGE_TITLE  "Welcome to QPuter ${VERSION} Setup"
+  !define MUI_WELCOMEPAGE_TEXT "QPuter is a desktop application for updating Flipper Zero firmware and databases, manage files on SD card, and repair corrupted device.$\r$\n$\r$\n$\r$\n$\r$\n$\r$\n$\r$\n$\r$\n$\r$\nCredits$\r$\nCode:   Georgii Surkov$\r$\nDesign: Valerie Aquamine, Dmitry Pavlov$\n$\r$\nOpen Source and Distributed under GPL v3 License$\r$\nCopyright (C) 2022 Flipper Devices Inc."
   !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-assets\backgrounds\windows_installer\windows_installer_welcome216.bmp"
   !define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-assets\backgrounds\windows_uninstaller\windows_uninstaller_welcome216.bmp"
   !define MUI_PAGE_CUSTOMFUNCTION_SHOW showHiDpi ; HiDpi replace image hack for welcome page
@@ -94,9 +92,9 @@
   ;!define MUI_FINISHPAGE_NOAUTOCLOSE ; Debug
   !insertmacro MUI_PAGE_INSTFILES
 
-  !define MUI_FINISHPAGE_TITLE "qFlipper ${VERSION} Setup Complete"
+  !define MUI_FINISHPAGE_TITLE "QPuter ${VERSION} Setup Complete"
 ;  !define MUI_FINISHPAGE_RUN "$INSTDIR\${NAME}.exe"
-;  !define MUI_FINISHPAGE_RUN_TEXT "Run qFlipper now"
+;  !define MUI_FINISHPAGE_RUN_TEXT "Run QPuter now"
   !define MUI_FINISHPAGE_LINK "More Info --> Flipper Zero Documentation"
   !define MUI_FINISHPAGE_LINK_LOCATION "https://docs.flipperzero.one"
   !define MUI_PAGE_CUSTOMFUNCTION_SHOW showHiDpi ; HiDpi replace image hack for finish page
@@ -126,10 +124,10 @@ Section "-Main Application"
 
     ; Sets the context of shell folders to "All Users"
     SetShellVarContext all    
-    ; Kills running qFlipper.exe processes
-    DetailPrint "Looking for running qFlipper.exe..."
-    nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like 'qFlipper.exe'$\" CALL terminate"
-    nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like 'qFlipper.exe'$\" CALL terminate" ;Twice to avoid long time exiting
+    ; Kills running ${NAME}.exe processes
+    DetailPrint "Looking for running ${NAME}.exe..."
+    nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like '${NAME}.exe'$\" CALL terminate"
+    nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like '${NAME}.exe'$\" CALL terminate" ;Twice to avoid long time exiting
     SetShellVarContext current
 
 	SetOutPath $INSTDIR
@@ -208,15 +206,15 @@ SectionEnd
 ;--------------------------------
 ;Uninstaller Section
 
-Section "un.Uninstall qFlipper" UninstallqFlipperSection
+Section "un.Uninstall ${NAME}" UninstallqFlipperSection
 
   ; Use 64bit registry keys, not WOW6432Node
-  SetRegView 64 
+  SetRegView 64
 
-  ; Kills running qFlipper.exe processes
-  DetailPrint "Looking for running qFlipper.exe..."
-  nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like 'qFlipper.exe'$\" CALL terminate"
-  nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like 'qFlipper.exe'$\" CALL terminate" ;Twice to avoid long time exiting
+  ; Kills running ${NAME}.exe processes
+  DetailPrint "Looking for running ${NAME}.exe..."
+  nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like '${NAME}.exe'$\" CALL terminate"
+  nsExec::ExecToLog "wmic.exe PROCESS where $\"Name like '${NAME}.exe'$\" CALL terminate" ;Twice to avoid long time exiting
 
   Delete "$DESKTOP\${NAME}.lnk"
   Delete "$SMPROGRAMS\${NAME}.lnk"
@@ -233,8 +231,8 @@ SectionEnd
    
   ;Language strings
   LangString DESC_UsbDriverSection ${LANG_ENGLISH} "STM32 Bootloader Driver for Flipper DFU mode"
-  LangString DESC_StartMenuSection ${LANG_ENGLISH} "Add qFlipper to Windows Start menu"
-  LangString DESC_DesktopShortcutSection ${LANG_ENGLISH} "Create qFlipper shortcut on Desktop"
+  LangString DESC_StartMenuSection ${LANG_ENGLISH} "Add QPuter to Windows Start menu"
+  LangString DESC_DesktopShortcutSection ${LANG_ENGLISH} "Create QPuter shortcut on Desktop"
   LangString DESC_RemoveDriversSection ${LANG_ENGLISH} "Remove all STM32 USB drivers from the system"
   LangString DESC_UninstallqFlipperSection ${LANG_ENGLISH} "Remove all STM32 USB drivers from the system"
   ;Assign language strings to install sections
@@ -256,7 +254,7 @@ SectionEnd
 
     ; Abort if not Windows 10 and newer
     ${IfNot} ${AtLeastWin10}
-      MessageBox MB_OK|MB_ICONSTOP "Can not install qFlipper. Windows 10 and newer required"
+      MessageBox MB_OK|MB_ICONSTOP "Can not install QPuter. Windows 10 and newer required"
       Abort
     ${EndIf}
 
@@ -264,7 +262,7 @@ SectionEnd
       ${DisableX64FSRedirection} ; Disable using SysWOW64 for 32-bit files
       SetRegView 64 ; Use 64bit registry keys, not WOW6432Node
     ${Else}
-      MessageBox MB_OK|MB_ICONSTOP "Error: Can't install qFlipper on 32-bit Windows. Use 64-bit version of Windows"
+      MessageBox MB_OK|MB_ICONSTOP "Error: Can't install QPuter on 32-bit Windows. Use 64-bit version of Windows"
       Abort ; Exit installer if 32 bit windows
      ${EndIf}  
 

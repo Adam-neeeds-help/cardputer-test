@@ -4,7 +4,7 @@
 
 set -exuo pipefail;
 
-PROJECT="qFlipper";
+PROJECT="QPuter";
 BUILD_DIRECTORY="build_mac";
 
 if [ -d ".git" ]; then
@@ -79,11 +79,11 @@ relink_framework \
     "libusb-1.0.0.dylib" \
     "@loader_path/libusb-1.0.0.dylib";
 relink_framework \
-    "$PROJECT.app/Contents/MacOS/qFlipper" \
+    "$PROJECT.app/Contents/MacOS/QPuter" \
     "libusb-1.0.0.dylib" \
     "@loader_path/../Frameworks/libusb-1.0.0.dylib";
 relink_framework \
-    "$PROJECT.app/Contents/MacOS/qFlipper-cli" \
+    "$PROJECT.app/Contents/MacOS/QPuter-cli" \
     "libusb-1.0.0.dylib" \
     "@loader_path/../Frameworks/libusb-1.0.0.dylib";
 
