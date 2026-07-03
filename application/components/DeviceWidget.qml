@@ -34,8 +34,9 @@ Item {
     Image {
         id: flipperImage
         anchors.fill: parent
-        source: "qrc:/assets/gfx/images/flipper.svg"
+        source: "qrc:/assets/gfx/images/flipper.png"
         sourceSize: Qt.size(360, 156)
+        fillMode: Image.PreserveAspectFit
         visible: false
     }
 

@@ -101,7 +101,8 @@ AbstractOverlay {
                     anchors.horizontalCenterOffset: -10
 
                     sourceSize: Qt.size(360, 156)
-                    source: "qrc:/assets/gfx/images/flipper.svg"
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/assets/gfx/images/flipper.png"
 
                     Image {
                         x: 93
