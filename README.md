@@ -1,4 +1,4 @@
-## qFlipper
+## QPuter-Qflipper with a cardputer theme for Flipper esp32 port
 
 ### Graphical desktop application for updating [Flipper Zero](https://flipperzero.one/) firmware via PC
 qFlipper is completely open source and based on [Qt](https://www.qt.io/) framework. Runs on Windows, macOS, Linux.
@@ -12,14 +12,12 @@ Download official qFlipper builds here: [update.flipperzero.one](https://update.
 <a href="https://update.flipperzero.one"><img width="300" alt="download qFlipper Button" src="https://cdn.flipperzero.one/download_qFlipper_button.png" /></a>
 
 
-## Features
-* Update Flipper's firmware and supplemental data with a press of one button
-* Repair a broken firmware installation
+Features
 * Stream Flipper's display and control it remotely
-* Install firmware from a `.dfu` file
 * Backup and restore settings, progress and pairing data
-* Automatic self-update feature
-* Command line interface
+* Upload Sd files
+
+  Windows download Exe from release page
 
 ## Build from sources 
 ### Cloning
