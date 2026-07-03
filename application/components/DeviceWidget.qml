@@ -61,8 +61,8 @@ Item {
         id: blueLed
         visible: !!deviceState && deviceState.isRecoveryMode
 
-        x: 234
-        y: 90
+        x: 199
+        y: 162
 
         width: 9
         height: width
@@ -71,16 +71,22 @@ Item {
         color: Theme.color.lightblue
     }
 
+    // The Cardputer illustration already draws its own screen content, so
+    // only overlay something here when there's an actual status to report
+    // (recovery/success) - not for the plain idle/default state.
     Image {
         id: defaultScreen
 
-        x: 93
-        y: 26
+        x: 85
+        y: 52
+
+        visible: (deviceState && deviceState.isRecoveryMode) ||
+                 Backend.backendState === ApplicationBackend.Finished
 
         source: deviceState && deviceState.isRecoveryMode ? "qrc:/assets/gfx/images/recovery.svg" :
                 Backend.backendState === ApplicationBackend.Finished ? "qrc:/assets/gfx/images/success.svg" :
-                                                                       "qrc:/assets/gfx/images/default.svg"
-        sourceSize: Qt.size(128, 64)
+                                                                       ""
+        sourceSize: Qt.size(82, 55)
     }
 
     ScreenCanvas {
@@ -99,11 +105,11 @@ Item {
     ExpandWidget {
         id: expandWidget
 
-        x: 89
-        y: 22
+        x: 85
+        y: 52
 
-        width: 136
-        height: 73
+        width: 82
+        height: 55
 
         visible: screenCanvas.visible
         opacity: clickArea.hovered ? clickArea.down ? 0.9 : 1 : 0
