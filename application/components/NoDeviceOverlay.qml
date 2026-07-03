@@ -20,7 +20,7 @@ Item {
         id: usbPlug
 
         x: 619
-        y: 137
+        y: 80
 
         source: "qrc:/assets/gfx/images/typec.svg"
         sourceSize: Qt.size(159, 37)
