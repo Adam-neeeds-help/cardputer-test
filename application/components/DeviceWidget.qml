@@ -12,8 +12,8 @@ Item {
 
     readonly property var deviceState: Backend.deviceState
 
-    width: 360
-    height: 156
+    width: 241
+    height: 220
 
     visible: opacity > 0
 
@@ -35,7 +35,7 @@ Item {
         id: flipperImage
         anchors.fill: parent
         source: "qrc:/assets/gfx/images/flipper.png"
-        sourceSize: Qt.size(360, 156)
+        sourceSize: Qt.size(241, 220)
         fillMode: Image.PreserveAspectFit
         visible: false
     }

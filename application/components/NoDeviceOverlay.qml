@@ -16,20 +16,10 @@ Item {
         }
     }
 
-    ThemedImage {
-        id: usbPlug
-
-        x: parent.width - 216
-        y: 145
-
-        source: "qrc:/assets/gfx/images/typec.svg"
-        sourceSize: Qt.size(159, 37)
-    }
-
     TextLabel {
         id: connectMsg
         anchors.horizontalCenter: parent.horizontalCenter
-        y: 264
+        y: 270
 
         color: Theme.color.lightorange2
         text: qsTr("Connect your Flipper")

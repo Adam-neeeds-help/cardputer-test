@@ -175,8 +175,8 @@ Item {
             opacity: Backend.backendState !== ApplicationBackend.ScreenStreaming &&
                      Backend.backendState !== ApplicationBackend.ErrorOccured ? 1 : 0
 
-            x: Backend.backendState === ApplicationBackend.Ready ? Math.round(mainContent.width / 2) : 216
-            y: 82
+            x: Backend.backendState === ApplicationBackend.Ready ? Math.round(mainContent.width / 2) : 280
+            y: 30
 
             onScreenStreamRequested: Backend.startFullScreenStreaming()
         }
