@@ -18,12 +18,22 @@ QtObject {
     // Brightness factor: 1.0 at the default accent lightness (0.65), scales the whole theme.
     readonly property real lightFactor: accentLight / 0.65
 
-    // Hue rotation applied to the baked device illustration so it follows the
-    // accent too. svgBase is the illustration's own baked line-art color.
+    // Hue rotation applied to baked purple SVG assets (icons, ThemedImage
+    // usages) so they follow the accent too.
     // (HueSaturation.hue: -1..1 maps to -360..360 degrees.)
-    readonly property color svgBase: "#e56b09"
+    readonly property color svgBase: "#a64dff"
     readonly property real svgHueShift: {
         var d = accentHue - svgBase.hslHue;
+        if(d > 0.5) d -= 1.0;
+        else if(d < -0.5) d += 1.0;
+        return d;
+    }
+
+    // Same idea, but for the device illustration specifically, which is
+    // baked in orange rather than purple.
+    readonly property color deviceSvgBase: "#e56b09"
+    readonly property real deviceSvgHueShift: {
+        var d = accentHue - deviceSvgBase.hslHue;
         if(d > 0.5) d -= 1.0;
         else if(d < -0.5) d += 1.0;
         return d;

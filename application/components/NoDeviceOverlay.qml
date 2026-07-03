@@ -16,13 +16,23 @@ Item {
         }
     }
 
+    ThemedImage {
+        id: usbPlug
+
+        x: 619
+        y: 137
+
+        source: "qrc:/assets/gfx/images/typec.svg"
+        sourceSize: Qt.size(159, 37)
+    }
+
     TextLabel {
         id: connectMsg
         anchors.horizontalCenter: parent.horizontalCenter
         y: 310
 
         color: Theme.color.lightorange2
-        text: qsTr("Connect your Flipper")
+        text: qsTr("Connect Your Cardputer")
 
         font.family: "Born2bSportyV2"
         font.pixelSize: 48

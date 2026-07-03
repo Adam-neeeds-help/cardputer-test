@@ -44,7 +44,7 @@ Item {
     HueSaturation {
         anchors.fill: flipperImage
         source: flipperImage
-        hue: Theme.svgHueShift
+        hue: Theme.deviceSvgHueShift
         saturation: Theme.accentSat - 1 // gray accent -> grayscale illustration
         lightness: Theme.svgLightShift
     }
