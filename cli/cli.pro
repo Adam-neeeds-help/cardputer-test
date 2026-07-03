@@ -46,6 +46,10 @@ win32 {
             VERSION = $$GIT_VERSION
         }
 
+        # Windows resource compiler requires a plain numeric x.y.z version,
+        # so strip a leading "v" from tags like "v1.1".
+        VERSION = $$replace(VERSION, "^v", "")
+
     } else: VERSION = 0.0.0
 }
 
