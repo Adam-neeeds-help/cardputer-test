@@ -19,7 +19,7 @@ Item {
     TextLabel {
         id: connectMsg
         anchors.horizontalCenter: parent.horizontalCenter
-        y: 270
+        y: 310
 
         color: Theme.color.lightorange2
         text: qsTr("Connect your Flipper")

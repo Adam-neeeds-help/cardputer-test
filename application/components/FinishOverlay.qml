@@ -100,7 +100,7 @@ AbstractOverlay {
                     anchors.verticalCenterOffset: -30
                     anchors.horizontalCenterOffset: -10
 
-                    sourceSize: Qt.size(241, 220)
+                    sourceSize: Qt.size(1312, 1199) // full native resolution to stay sharp when upscaled
                     fillMode: Image.PreserveAspectFit
                     source: "qrc:/assets/gfx/images/flipper.png"
 
