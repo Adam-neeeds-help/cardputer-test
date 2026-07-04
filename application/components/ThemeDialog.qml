@@ -47,7 +47,7 @@ Window {
 
     readonly property var presets: [
         "#ff8a2c", "#ff5a00", "#ffd11a", "#3bd13b", "#00e0a0",
-        "#1ad1d1", "#228cff", "#a64dff", "#ff4fa3", "#e0e0e0"
+        "#1ad1d1", "#228cff", "#a64dff", "#ff4fa3", "#ffd9b3"
     ]
 
     Shortcut { sequence: "Escape"; onActivated: control.close() }
