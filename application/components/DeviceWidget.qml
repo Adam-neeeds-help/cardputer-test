@@ -79,6 +79,8 @@ Item {
 
         x: 112
         y: 23
+        width: 115
+        height: 68
 
         visible: (deviceState && deviceState.isRecoveryMode) ||
                  Backend.backendState === ApplicationBackend.Finished
