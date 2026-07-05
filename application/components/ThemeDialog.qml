@@ -26,7 +26,7 @@ Window {
         control.requestActivate();
     }
 
-    readonly property string defaultAccent: "#a64dff"
+    readonly property string defaultAccent: "#ff8200"
 
     readonly property color cur: Preferences.accentColor
     readonly property real curH: cur.hslHue >= 0 ? cur.hslHue : 0

@@ -200,6 +200,8 @@ AbstractOverlay {
         id: updateButton
         action: updateButtonAction
 
+        visible: false
+
         x: Math.round(centerX - width / 2)
         y: 265
 
@@ -259,9 +261,7 @@ AbstractOverlay {
             }
         }
 
-        visible: Backend.firmwareUpdateState !== ApplicationBackend.Unknown &&
-                 Backend.firmwareUpdateState !== ApplicationBackend.Checking &&
-                 Backend.firmwareUpdateState !== ApplicationBackend.ErrorOccured
+        visible: false
     }
 
     LinkButton {
@@ -270,6 +270,8 @@ AbstractOverlay {
 
         anchors.top: updateButton.bottom
         anchors.topMargin: 5
+
+        visible: false
 
         action: installFromFileAction
     }

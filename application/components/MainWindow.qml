@@ -175,8 +175,21 @@ Item {
             opacity: Backend.backendState !== ApplicationBackend.ScreenStreaming &&
                      Backend.backendState !== ApplicationBackend.ErrorOccured ? 1 : 0
 
-            x: Backend.backendState === ApplicationBackend.Ready ? Math.round(mainContent.width / 2) : 196
-            y: 20
+            x: Backend.backendState === ApplicationBackend.Ready ? Math.round(mainContent.width / 2) + 25 : 196
+            y: Backend.backendState === ApplicationBackend.Ready ? 60 : 20
+
+            // Shrink the illustration on the post-pairing (Ready) page. Scaling
+            // keeps the widget's internal overlays (screen, LED) aligned, unlike
+            // changing width/height. Origin is Top-Left so it stays anchored to x/y.
+            transformOrigin: Item.TopLeft
+            scale: Backend.backendState === ApplicationBackend.Ready ? 0.9 : 1.0
+
+            Behavior on scale {
+                PropertyAnimation {
+                    easing.type: Easing.InOutQuad
+                    duration: 350
+                }
+            }
 
             onScreenStreamRequested: Backend.startFullScreenStreaming()
         }

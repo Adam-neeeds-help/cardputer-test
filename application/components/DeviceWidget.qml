@@ -78,9 +78,9 @@ Item {
         id: defaultScreen
 
         x: 112
-        y: 23
+        y: 15
         width: 115
-        height: 68
+        height: 78
 
         visible: (deviceState && deviceState.isRecoveryMode) ||
                  Backend.backendState === ApplicationBackend.Finished
@@ -88,12 +88,30 @@ Item {
         source: deviceState && deviceState.isRecoveryMode ? "qrc:/assets/gfx/images/recovery.svg" :
                 Backend.backendState === ApplicationBackend.Finished ? "qrc:/assets/gfx/images/success.svg" :
                                                                        ""
-        sourceSize: Qt.size(115, 68)
+        sourceSize: Qt.size(115, 78)
     }
 
     ScreenCanvas {
         id: screenCanvas
-        anchors.fill: defaultScreen
+
+        // Render the 128x64 frame at an integer 4x (512x256) like the full-screen
+        // view, then scale that high-res buffer down to the display size below.
+        // dispWidth/dispHeight let us size the preview independently (they don't
+        // have to keep the native 2:1 aspect) - tweak these to resize the screen.
+        readonly property real dispWidth: 115
+        readonly property real dispHeight: 62
+
+        zoomFactor: 4
+        smooth: true
+
+        transform: Scale {
+            xScale: screenCanvas.dispWidth / (screenCanvas.zoomFactor * 128)
+            yScale: screenCanvas.dispHeight / (screenCanvas.zoomFactor * 64)
+        }
+
+        x: defaultScreen.x
+        y: defaultScreen.y + (defaultScreen.height - dispHeight) / 2 + 4
+
         visible: Backend.screenStreamer.isEnabled &&
                  Backend.backendState > ApplicationBackend.WaitingForDevices &&
                  Backend.backendState < ApplicationBackend.ScreenStreaming
@@ -108,10 +126,10 @@ Item {
         id: expandWidget
 
         x: 112
-        y: 23
+        y: 15
 
         width: 115
-        height: 68
+        height: 78
 
         visible: screenCanvas.visible
         opacity: clickArea.hovered ? clickArea.down ? 0.9 : 1 : 0
